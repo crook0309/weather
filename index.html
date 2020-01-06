@@ -1,20 +1,29 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><link rel="stylesheet" href="css/fontawesome/css/all.css"><title>Weather</title><link href="/static/css/main.e0ad7285.css" rel="stylesheet"></head><body><div class="translate"><a href="#" onclick='return doGTranslate("ru|en"),!1' title="English" class="gflag nturl" style="background-position:0 0"><img src="//gtranslate.net/flags/blank.png" height="16" width="16" alt="English"/></a><a href="#" onclick='return doGTranslate("ru|ru"),!1' title="Russian" class="gflag nturl" style="background-position:-500px -200px"><img src="//gtranslate.net/flags/blank.png" height="16" width="16" alt="Russian"/></a></div><div id="google_translate_element2"></div><script type="text/javascript">function googleTranslateElementInit2(){new google.translate.TranslateElement({pageLanguage:"ru",autoDisplay:!1},"google_translate_element2")}</script><script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script><script type="text/javascript">window.onload=function(){doGTranslate("en|ru")},eval(function(e,t,n,a,r,c){if(r=function(e){return(e<43?"":r(parseInt(e/43)))+(35<(e%=43)?String.fromCharCode(e+29):e.toString(36))},!"".replace(/^/,String)){for(;n--;)c[r(n)]=a[n]||r(n);a=[function(e){return c[e]}],r=function(){return"\\w+"},n=1}for(;n--;)a[n]&&(e=e.replace(new RegExp("\\b"+r(n)+"\\b","g"),a[n]));return e}("6 7(a,b){n{4(2.9){3 c=2.9(\"o\");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s('t'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a=='')v;3 b=a.w('|')[1];3 c;3 d=2.x('y');z(3 i=0;i<d.5;i++)4(d[i].A=='B-C-D')c=d[i];4(2.j('k')==E||2.j('k').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,'m');7(c,'m')}}",0,43,"||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500".split("|"),0,{}))</script><script>function initMap() {                     
-        navigator.geolocation.getCurrentPosition(function(position) {
-                    let lat = position.coords.latitude
-                    let lng = position.coords.longitude
-        var geocoder = new google.maps.Geocoder;
-        var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};        
-        geocoder.geocode({'location': latlng}, function(results, status) {
-            if (status === 'OK') {
-              if (results[0]) {             
-               let myCity= results[0].address_components[3].long_name
-                localStorage.setItem('myCity', myCity)
-              } else {
-              window.alert('No results found');
-              }
-            } else {
-            window.alert('Geocoder failed due to: ' + status);
-            }
-          });             
-        })
-      }</script><script async defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXzFnhHIUmGqbhezchDllN8A3lOTvl7ig&callback=initMap"></script><div id="root"></div><script type="text/javascript" src="/static/js/main.4c6ccf2a.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><link rel="stylesheet" href="css/fontawesome/css/all.css"><title>Weather</title><link href="/static/css/2.400f043a.chunk.css" rel="stylesheet"><link href="/static/css/main.3724baee.chunk.css" rel="stylesheet"></head><body><script async defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsXKl4Ev5Gype4gVc59LkIepYXJsrq7VM&callback=initMap"></script><script>async function getMyGeoPosition() {
+           navigator.geolocation.getCurrentPosition( await function(position) {
+        localStorage.setItem('lat', position.coords.latitude)
+        localStorage.setItem('lng', position.coords.longitude)
+      })
+    return  await function (dispatch){        
+        let lat = localStorage.getItem('lat')
+        let lng = localStorage.getItem('lng')
+        let url = 'http://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lng+'&zoom=18&addressdetails=1'
+        try {
+            fetch(url)
+                .then(response => {
+                    response.json().then( response => {
+                        console.log(response)
+                        dispatch(actionGeoPosition(response))
+                        let res = JSON.stringify(response)
+                        localStorage.setItem('myCity',response['address']['city'])
+
+                   })
+                })
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+    }
+
+}
+getMyGeoPosition()</script><div id="root"></div><script>!function(f){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],l=0,a=[];l<n.length;l++)t=n[l],Object.prototype.hasOwnProperty.call(p,t)&&p[t]&&a.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(f[r]=o[r]);for(s&&s(e);a.length;)a.shift()();return c.push.apply(c,u||[]),i()}function i(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=l(l.s=t[0]))}return e}var t={},p={1:0},c=[];function l(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return f[e].call(r.exports,r,r.exports,l),r.l=!0,r.exports}l.m=f,l.c=t,l.d=function(e,r,t){l.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},l.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},l.t=function(r,e){if(1&e&&(r=l(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(l.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)l.d(t,n,function(e){return r[e]}.bind(null,n));return t},l.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return l.d(r,"a",r),r},l.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},l.p="/";var r=this.webpackJsonpweather=this.webpackJsonpweather||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;i()}([])</script><script src="/static/js/2.db116194.chunk.js"></script><script src="/static/js/main.32bed7fd.chunk.js"></script></body></html>
